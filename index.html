@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<style>
+  /* --- CSS START --- */
+  .bapenda-container {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+  }
+
+  /* Header Styles */
+  .bapenda-header {
+    background: linear-gradient(135deg, #006494 0%, #003554 100%);
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+  }
+  .bapenda-header h2 { margin: 0; font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+  .bapenda-header p { margin: 5px 0 0; font-size: 16px; opacity: 0.9; }
+
+  /* Tabs Navigation */
+  .bapenda-tabs {
+    display: flex;
+    background: #f1f1f1;
+    border-bottom: 1px solid #ddd;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 18px;
+    border: none;
+    background: #f1f1f1;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #555;
+    border-bottom: 3px solid transparent;
+  }
+  .tab-btn:hover { background: #e9e9e9; color: #006494; }
+  .tab-btn.active {
+    background: #fff;
+    color: #006494;
+    border-bottom: 3px solid #006494;
+  }
+
+  /* Content Area */
+  .tab-content {
+    display: none;
+    padding: 25px;
+    animation: fadeIn 0.4s;
+  }
+  .tab-content.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Accordion (Details/Summary) Styles */
+  details {
+    margin-bottom: 12px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  details[open] {
+    border-color: #006494;
+    box-shadow: 0 2px 8px rgba(0,100,148,0.1);
+  }
+  summary {
+    padding: 15px 20px;
+    cursor: pointer;
+    background: #fcfcfc;
+    font-weight: 600;
+    color: #333;
+    list-style: none; /* Hide default triangle */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { background: #f0f8ff; }
+  
+  /* Custom Arrow Icon */
+  summary::after {
+    content: '+';
+    font-size: 20px;
+    font-weight: bold;
+    color: #006494;
+    transition: transform 0.2s;
+  }
+  details[open] summary::after { 
+    content: '-';
+    transform: rotate(0deg); 
+  }
+  details[open] summary {
+    background: #006494;
+    color: white;
+  }
+  details[open] summary::after { color: white; }
+
+  /* Steps List */
+  .payment-steps {
+    padding: 20px;
+    background: #fff;
+    line-height: 1.6;
+    color: #444;
+    font-size: 15px;
+  }
+  .payment-steps ol { padding-left: 20px; margin: 0; }
+  .payment-steps li { margin-bottom: 8px; }
+  
+  /* Subtitle inside card */
+  .sub-method {
+    font-size: 0.85em;
+    font-weight: normal;
+    margin-left: 8px;
+    opacity: 0.8;
+  }
+
+  /* Important Note Box */
+  .important-note {
+    background: #fff3cd;
+    border-left: 5px solid #ffc107;
+    padding: 15px;
+    margin: 25px 25px 30px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #856404;
+  }
+  .important-note strong { display: block; margin-bottom: 5px; text-transform: uppercase; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .bapenda-header h2 { font-size: 20px; }
+    .tab-btn { padding: 12px; font-size: 14px; }
+  }
+  /* --- CSS END --- */
+</style>
+</head>
+<body>
+
+<div class="bapenda-container">
+  <div class="bapenda-header">
+    <h2>Tutorial Pembayaran Pajak Daerah</h2>
+    <p>Badan Pendapatan Daerah Kabupaten Kampar</p>
+  </div>
+
+  <div class="bapenda-tabs">
+    <button class="tab-btn active" onclick="openTab(event, 'pbb')">A. PEMBAYARAN PBB-P2</button>
+    <button class="tab-btn" onclick="openTab(event, 'pdl')">B. PAJAK DAERAH LAINNYA (PDL)</button>
+  </div>
+
+  <div id="pbb" class="tab-content active">
+    
+    <details>
+      <summary>🏛️ Teller Bank <span class="sub-method">(BRK Syariah / Mitra)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Siapkan SPPT PBB-P2 atau NOP (18 digit).</li>
+          <li>Datang ke kantor bank mitra (BRK Syariah).</li>
+          <li>Ambil nomor antrian teller.</li>
+          <li>Sampaikan kepada teller ingin membayar <strong>PBB-P2 Kabupaten Kampar</strong>.</li>
+          <li>Serahkan NOP atau SPPT kepada petugas.</li>
+          <li>Teller akan memeriksa data dan menyampaikan nominal pajak terutang.</li>
+          <li>Lakukan pembayaran (tunai atau sesuai ketentuan bank).</li>
+          <li>Terima dan simpan bukti pembayaran/struk sebagai bukti sah.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>🏧 ATM <span class="sub-method">(BRK Syariah / Mitra)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Masukkan kartu ATM dan PIN.</li>
+          <li>Pilih menu <strong>Pembayaran / Tagihan / Pajak Daerah</strong>.</li>
+          <li>Pilih <strong>PBB-P2</strong>.</li>
+          <li>Pilih <strong>Kabupaten Kampar</strong>.</li>
+          <li>Masukkan NOP (dan Tahun Pajak jika diminta).</li>
+          <li>Periksa nama wajib pajak dan nominal.</li>
+          <li>Konfirmasi pembayaran.</li>
+          <li>Simpan struk ATM sebagai bukti pembayaran.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>📱 Mobile Banking <span class="sub-method">(BRK Syariah Mobile)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Login ke aplikasi <strong>BRK Syariah Mobile</strong>.</li>
+          <li>Pilih menu <strong>Pembayaran</strong>.</li>
+          <li>Pilih menu <strong>Pajak</strong> > Pilih <strong>PBB-P2</strong>.</li>
+          <li>Pilih <strong>Kabupaten Kampar</strong>.</li>
+          <li>Pilih Rekening Pembayaran (jika tersedia).</li>
+          <li>Masukkan <strong>NOP</strong> dan <strong>Tahun Pajak</strong>.</li>
+          <li>Klik Lanjut / Cek Tagihan.</li>
+          <li>Periksa data dan nominal pajak, lalu klik <strong>Bayar</strong>.</li>
+          <li>Simpan bukti transaksi (riwayat/screenshot).</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>📷 QRIS via SAPAHATI <span class="sub-method">(Aplikasi)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Login aplikasi <strong>Sapahati</strong>.</li>
+          <li>Pilih menu <strong>Layanan</strong> > <strong>Cek Tunggakan PBB-P2</strong>.</li>
+          <li>Masukkan NOP, lalu klik <strong>Cari Tunggakan</strong>.</li>
+          <li>Klik <strong>Lihat Tunggakan</strong>.</li>
+          <li>Scroll ke bawah dan pilih <strong>Bayar Tagihan Pajak</strong>.</li>
+          <li>QRIS PBB-P2 akan ditampilkan.</li>
+          <li>Scan QRIS menggunakan e-wallet pilihan (GoPay, OVO, Dana, M-Banking, dll).</li>
+          <li>Konfirmasi pembayaran dan simpan bukti.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>👛 Fintech / E-Wallet <span class="sub-method">(OVO, GoPay, LinkAja, PosPay)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Buka aplikasi e-wallet pilihan Anda.</li>
+          <li>Pilih menu <strong>Bayar / Tagihan / Pajak</strong>.</li>
+          <li>Pilih <strong>PBB / Pajak Daerah</strong>.</li>
+          <li>Pilih <strong>Kabupaten Kampar</strong>.</li>
+          <li>Masukkan NOP dan Tahun Pajak.</li>
+          <li>Cek data dan nominal, lalu lakukan pembayaran.</li>
+          <li>Simpan bukti pembayaran.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>🛒 E-Commerce <span class="sub-method">(Tokopedia, Bukalapak, Traveloka)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Buka aplikasi e-commerce.</li>
+          <li>Pilih menu <strong>Top Up & Tagihan / Pajak / PBB Online</strong>.</li>
+          <li>Pilih <strong>PBB-P2</strong>.</li>
+          <li>Pilih wilayah <strong>Kabupaten Kampar</strong>.</li>
+          <li>Masukkan NOP dan Tahun Pajak.</li>
+          <li>Cek tagihan dan pilih metode pembayaran.</li>
+          <li>Selesaikan pembayaran dan simpan bukti.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>🏪 Retail Modern <span class="sub-method">(Indomaret / Alfamart)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Datang ke Indomaret atau Alfamart terdekat.</li>
+          <li>Bawa SPPT PBB-P2 atau catatan NOP.</li>
+          <li>Sampaikan kepada kasir ingin membayar <strong>PBB-P2 Kabupaten Kampar</strong>.</li>
+          <li>Sebutkan/tunjukkan NOP dan Tahun Pajak yang akan dibayar.</li>
+          <li>Kasir menyampaikan nominal pembayaran.</li>
+          <li>Lakukan pembayaran, terima dan simpan struk pembayaran.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>📮 Kantor Pos <span class="sub-method">(Offline)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Datang ke Kantor Pos membawa SPPT PBB-P2 atau NOP.</li>
+          <li>Sampaikan ingin membayar PBB-P2.</li>
+          <li>Petugas melakukan input data.</li>
+          <li>Lakukan pembayaran di loket.</li>
+          <li>Simpan bukti pembayaran.</li>
+        </ol>
+      </div>
+    </details>
+
+  </div>
+
+  <div id="pdl" class="tab-content">
+    
+    <details>
+      <summary>🏛️ Teller Bank <span class="sub-method">(BRK Syariah / Mitra)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li><strong>Siapkan Kode Billing dari SKPD.</strong></li>
+          <li>Datang ke kantor bank mitra (BRK Syariah) dan ambil antrian teller.</li>
+          <li>Sampaikan ingin membayar <strong>PDL Kabupaten Kampar</strong>.</li>
+          <li>Serahkan <strong>Kode Bayar/Kode Billing</strong> kepada petugas.</li>
+          <li>Teller akan memeriksa data dan menyampaikan nominal pajak terutang.</li>
+          <li>Lakukan pembayaran (tunai atau sesuai ketentuan bank).</li>
+          <li>Terima dan simpan bukti pembayaran/struk sebagai bukti sah.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>🌐 QRIS Web <span class="sub-method">(qris.brksyariah.co.id)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Buka <a href="https://qris.brksyariah.co.id/" target="_blank">https://qris.brksyariah.co.id/</a></li>
+          <li>Pilih menu <strong>Pajak</strong>.</li>
+          <li>Pilih <strong>PDL (Pajak Daerah Lainnya)</strong>.</li>
+          <li>Pada kolom Kode Biller, isi <strong>Penerimaan Kampar</strong>.</li>
+          <li>Masukkan <strong>Billing / Kode Bayar</strong>.</li>
+          <li>Klik <strong>Generate QRIS</strong>.</li>
+          <li>Scan QRIS menggunakan e-wallet atau mobile banking apa saja.</li>
+          <li>Konfirmasi pembayaran dan simpan bukti.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>📱 Mobile Banking <span class="sub-method">(BRK Syariah Mobile)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Login ke BRK Syariah Mobile.</li>
+          <li>Pilih menu <strong>Pembayaran</strong> > <strong>Pajak Daerah</strong>.</li>
+          <li>Pilih menu <strong>Pajak Daerah</strong> kembali.</li>
+          <li>Pilih <strong>PDL (Pajak Daerah Lainnya)</strong>.</li>
+          <li>Pilih <strong>Kabupaten Kampar</strong>.</li>
+          <li>Masukkan <strong>Billing / Kode Bayar</strong>.</li>
+          <li>Klik Lanjut, periksa data dan nominal.</li>
+          <li>Klik Bayar dan simpan bukti transaksi.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>🏧 ATM <span class="sub-method">(PDL)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Masukkan kartu ATM dan PIN.</li>
+          <li>Pilih <strong>Pembayaran / Pajak Daerah</strong>.</li>
+          <li>Pilih <strong>PDL</strong>.</li>
+          <li>Masukkan <strong>Billing / Kode Bayar</strong>.</li>
+          <li>Konfirmasi pembayaran.</li>
+          <li>Simpan struk ATM.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>🟢 GoTagihan <span class="sub-method">(Aplikasi Gojek)</span></summary>
+      <div class="payment-steps">
+        <ol>
+          <li>Buka aplikasi Gojek.</li>
+          <li>Pilih <strong>GoPay</strong> &rarr; <strong>Bayar / Tagihan</strong> &rarr; <strong>GoTagihan</strong>.</li>
+          <li>Pilih kategori <strong>Layanan Publik / Pajak Daerah</strong>.</li>
+          <li>Pilih <strong>Kabupaten Kampar</strong>.</li>
+          <li>Masukkan <strong>Billing / Kode Bayar</strong>.</li>
+          <li>Cek tagihan, masukkan PIN dan selesaikan pembayaran.</li>
+          <li>Simpan bukti transaksi.</li>
+        </ol>
+      </div>
+    </details>
+
+  </div>
+
+  <div class="important-note">
+    <strong>📌 CATATAN PENTING</strong>
+    Pastikan NOP, Billing/Kode Bayar, Tahun Pajak, dan Nama Wajib Pajak sesuai sebelum melakukan pembayaran. Simpan selalu bukti pembayaran sebagai arsip sah.
+  </div>
+
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    
+    // Hide all contents
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+      tabcontent[i].classList.remove("active");
+    }
+    
+    // Remove active class from buttons
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    
+    // Show current tab and add active class
+    document.getElementById(tabName).style.display = "block";
+    setTimeout(function(){
+       document.getElementById(tabName).classList.add("active");
+    }, 10); // Small delay for animation
+    evt.currentTarget.className += " active";
+  }
+</script>
+
+</body>
+</html>
