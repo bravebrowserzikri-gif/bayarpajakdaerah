@@ -469,6 +469,29 @@
     evt.currentTarget.className += " active";
   }
 </script>
+<script>
+  function sendHeight() {
+    // Ambil tinggi total halaman saat ini
+    const height = document.body.scrollHeight;
+    // Kirim pesan ke parent (website Bapenda)
+    window.parent.postMessage({ frameHeight: height }, '*');
+  }
 
+  // 1. Kirim saat pertama kali loading
+  window.addEventListener('load', sendHeight);
+  
+  // 2. Kirim saat ukuran layar berubah (resize)
+  window.addEventListener('resize', sendHeight);
+
+  // 3. Kirim SETIAP KALI tombol Accordion/Details diklik
+  const allDetails = document.querySelectorAll('details');
+  allDetails.forEach(detail => {
+    detail.addEventListener('toggle', function() {
+      // Kasih jeda sedikit (100ms) biar animasi selesai dulu, baru hitung tinggi
+      setTimeout(sendHeight, 100); 
+    });
+  });
+</script>
 </body>
 </html>
+
