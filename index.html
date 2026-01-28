@@ -2,58 +2,80 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Tutorial Pembayaran Pajak Daerah - Bapenda Kampar</title>
 <style>
   /* --- CSS START --- */
-  .bapenda-container {
+  :root {
+    --primary-color: #006494;
+    --secondary-color: #003554;
+    --accent-color: #f1f1f1;
+    --text-color: #444;
+    --bg-light: #ffffff;
+  }
+
+  * { box-sizing: border-box; } /* Penting untuk responsif */
+
+  body {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 10px; /* Memberi sedikit ruang di HP */
+    background-color: #f9f9f9;
+  }
+
+  .bapenda-container {
     max-width: 800px;
     margin: 0 auto;
-    background: #ffffff;
+    background: var(--bg-light);
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     overflow: hidden;
     border: 1px solid #e0e0e0;
+    width: 100%; /* Memastikan lebar penuh di layar kecil */
   }
 
   /* Header Styles */
   .bapenda-header {
-    background: linear-gradient(135deg, #006494 0%, #003554 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: white;
-    padding: 30px 20px;
+    padding: 25px 20px;
     text-align: center;
   }
-  .bapenda-header h2 { margin: 0; font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-  .bapenda-header p { margin: 5px 0 0; font-size: 16px; opacity: 0.9; }
+  .bapenda-header h2 { margin: 0; font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.3; }
+  .bapenda-header p { margin: 8px 0 0; font-size: 15px; opacity: 0.9; }
 
-  /* Tabs Navigation */
+  /* Tabs Navigation - Responsive Flexbox */
   .bapenda-tabs {
     display: flex;
     background: #f1f1f1;
     border-bottom: 1px solid #ddd;
+    flex-wrap: wrap; /* Agar tab turun ke bawah jika layar sangat sempit (opsional) */
   }
   .tab-btn {
     flex: 1;
-    padding: 18px;
+    padding: 18px 10px; /* Padding kiri-kanan dikurangi sedikit */
     border: none;
     background: #f1f1f1;
-    font-size: 16px;
+    font-size: 15px; /* Ukuran font sedikit disesuaikan */
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
     color: #555;
     border-bottom: 3px solid transparent;
+    white-space: nowrap; /* Mencegah teks tab turun baris sembarangan */
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .tab-btn:hover { background: #e9e9e9; color: #006494; }
+  .tab-btn:hover { background: #e9e9e9; color: var(--primary-color); }
   .tab-btn.active {
     background: #fff;
-    color: #006494;
-    border-bottom: 3px solid #006494;
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
   }
 
   /* Content Area */
   .tab-content {
     display: none;
-    padding: 25px;
+    padding: 20px; /* Padding sedikit dikurangi untuk mobile */
     animation: fadeIn 0.4s;
   }
   .tab-content.active { display: block; }
@@ -70,13 +92,14 @@
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.3s;
+    background: white;
   }
   details[open] {
-    border-color: #006494;
+    border-color: var(--primary-color);
     box-shadow: 0 2px 8px rgba(0,100,148,0.1);
   }
   summary {
-    padding: 15px 20px;
+    padding: 15px;
     cursor: pointer;
     background: #fcfcfc;
     font-weight: 600;
@@ -85,34 +108,38 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 15px;
+    line-height: 1.4;
+    user-select: none; /* Mencegah teks terpilih saat klik cepat */
   }
   summary::-webkit-details-marker { display: none; }
   summary:hover { background: #f0f8ff; }
   
+  /* Icon Plus/Minus */
   summary::after {
     content: '+';
     font-size: 20px;
     font-weight: bold;
-    color: #006494;
-    transition: transform 0.2s;
+    color: var(--primary-color);
+    margin-left: 10px;
+    flex-shrink: 0; /* Mencegah icon gepeng */
   }
   details[open] summary::after { 
     content: '-';
-    transform: rotate(0deg); 
   }
   details[open] summary {
-    background: #006494;
+    background: var(--primary-color);
     color: white;
   }
   details[open] summary::after { color: white; }
 
   /* Steps List */
   .payment-steps {
-    padding: 20px;
+    padding: 15px 20px;
     background: #fff;
     line-height: 1.6;
-    color: #444;
-    font-size: 15px;
+    color: var(--text-color);
+    font-size: 14px;
   }
   .payment-steps ol { padding-left: 20px; margin: 0; }
   .payment-steps li { margin-bottom: 8px; }
@@ -120,41 +147,68 @@
   .sub-method {
     font-size: 0.85em;
     font-weight: normal;
-    margin-left: 8px;
+    display: inline-block; /* Agar aman di mobile */
     opacity: 0.8;
   }
 
-  /* Alert Box khusus Transfer */
+  /* Alert Box Transfer */
   .alert-box-transfer {
     background-color: #ffebee;
-    border: 2px solid #d32f2f;
+    border: 1px solid #d32f2f;
+    border-left: 4px solid #d32f2f;
     color: #b71c1c;
     padding: 15px;
     border-radius: 6px;
     margin-top: 15px;
-    font-size: 15px;
+    font-size: 14px;
   }
   .alert-box-transfer strong {
     font-weight: 800;
     display: block;
     margin-bottom: 5px;
   }
+  .contact-info {
+    font-size: 1.1em;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #b71c1c;
+    word-break: break-word; /* Mencegah nomor HP terpotong keluar kotak */
+  }
 
-  /* Important Note Box Footer */
+  /* Important Note Footer */
   .important-note {
     background: #fff3cd;
     border-left: 5px solid #ffc107;
     padding: 15px;
-    margin: 25px 25px 30px;
+    margin: 20px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 13px;
     color: #856404;
+    line-height: 1.5;
   }
   .important-note strong { display: block; margin-bottom: 5px; text-transform: uppercase; }
 
-  @media (max-width: 600px) {
-    .bapenda-header h2 { font-size: 20px; }
-    .tab-btn { padding: 12px; font-size: 14px; }
+  /* --- MEDIA QUERIES (RESPONSIVE RULES) --- */
+  
+  /* Tampilan HP (Lebar kurang dari 600px) */
+  @media screen and (max-width: 600px) {
+    body { padding: 0; } /* Hilangkan padding body agar full screen */
+    .bapenda-container { border-radius: 0; border: none; box-shadow: none; } /* Hilangkan border radius */
+    
+    .bapenda-header { padding: 20px 15px; }
+    .bapenda-header h2 { font-size: 18px; }
+    
+    .tab-btn { 
+      padding: 15px 5px; 
+      font-size: 13px; /* Kecilkan font tab */
+      white-space: normal; /* Izinkan teks tab turun baris jika perlu */
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .tab-content { padding: 15px; }
+    summary { padding: 12px 15px; font-size: 14px; }
+    .sub-method { display: block; margin-top: 2px; margin-left: 0; font-size: 0.8em; } /* Sub-method turun baris di HP */
   }
   /* --- CSS END --- */
 </style>
@@ -175,7 +229,9 @@
   <div id="pbb" class="tab-content active">
     
     <details>
-      <summary>🏛️ Teller Bank <span class="sub-method">(BRK Syariah / Mitra)</span></summary>
+      <summary>
+        <span>🏛️ Teller Bank <span class="sub-method">(BRK Syariah / Mitra)</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li>Siapkan SPPT PBB-P2 atau NOP (18 digit).</li>
@@ -189,7 +245,9 @@
     </details>
 
     <details>
-      <summary>🏧 ATM <span class="sub-method">(BRK Syariah)</span></summary>
+      <summary>
+        <span>🏧 ATM <span class="sub-method">(BRK Syariah)</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li>Masukkan kartu ATM dan PIN.</li>
@@ -203,7 +261,9 @@
     </details>
 
     <details>
-      <summary>📱 Mobile Banking <span class="sub-method">(BRK Syariah)</span></summary>
+      <summary>
+        <span>📱 Mobile Banking <span class="sub-method">(BRK Syariah)</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li>Login ke aplikasi <strong>BRK Syariah Mobile</strong>.</li>
@@ -217,7 +277,9 @@
     </details>
 
     <details>
-      <summary>👛 Fintech / E-Wallet <span class="sub-method">(GoPay, LinkAja, I-Saku)</span></summary>
+      <summary>
+        <span>👛 Fintech / E-Wallet <span class="sub-method">(GoPay, LinkAja, I-Saku)</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li>Buka aplikasi e-wallet (GoPay / LinkAja / I-Saku).</li>
@@ -230,7 +292,9 @@
     </details>
 
     <details>
-      <summary>🛒 E-Commerce & Retail <span class="sub-method">(Tokopedia, Bukalapak, Indomaret, Alfamart)</span></summary>
+      <summary>
+        <span>🛒 E-Commerce & Retail <span class="sub-method">(Tokopedia, Bukalapak, Indomaret, Alfamart)</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li><strong>Aplikasi:</strong> Buka Tokopedia/Bukalapak > Pilih Pajak PBB > Pilih Kab. Kampar > Masukkan NOP.</li>
@@ -242,7 +306,9 @@
     </details>
 
     <details>
-      <summary>📷 QRIS via SAPAHATI <span class="sub-method">(Aplikasi)</span></summary>
+      <summary>
+        <span>📷 QRIS via SAPAHATI <span class="sub-method">(Aplikasi)</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li>Login aplikasi <strong>Sapahati</strong>.</li>
@@ -255,7 +321,9 @@
     </details>
 
     <details>
-      <summary>🏦 <strong>VIA TRANSFER (Rekening BRK Syariah)</strong> <span class="sub-method"> *PBB-P2</span></summary>
+      <summary>
+        <span>🏦 <strong>VIA TRANSFER (Rekening BRK Syariah)</strong> <span class="sub-method"> *PBB-P2</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li>Lakukan transfer melalui Teller, ATM, atau Mobile Banking Bank manapun.</li>
@@ -272,7 +340,7 @@
         <div class="alert-box-transfer">
             <strong>⚠️ WAJIB KONFIRMASI (PENTING!)</strong>
             <p style="margin:0;">Setelah transfer wajib melakukan konfirmasi ke Bendahara Penerimaan Badan Pendapatan Daerah Kabupaten Kampar melalui:</p>
-            <div style="font-size: 1.2em; margin-top: 10px; font-weight:bold; color: #b71c1c;">
+            <div class="contact-info">
                 📞 HP/WA: 0821-8469-9898 <br>
                 (a.n. Tata Sofyan)
             </div>
@@ -285,7 +353,9 @@
   <div id="pdl" class="tab-content">
     
     <details>
-      <summary>🏛️ Teller Bank <span class="sub-method">(Dengan Kode Billing)</span></summary>
+      <summary>
+        <span>🏛️ Teller Bank <span class="sub-method">(Dengan Kode Billing)</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li>Siapkan Kode Billing dari SKPD.</li>
@@ -298,7 +368,9 @@
     </details>
 
     <details>
-      <summary>🌐 QRIS Web <span class="sub-method">(qris.brksyariah.co.id)</span></summary>
+      <summary>
+        <span>🌐 QRIS Web <span class="sub-method">(qris.brksyariah.co.id)</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li>Buka <a href="https://qris.brksyariah.co.id/" target="_blank">https://qris.brksyariah.co.id/</a></li>
@@ -311,7 +383,9 @@
     </details>
 
     <details>
-      <summary>📱 Mobile Banking <span class="sub-method">(BRK Syariah)</span></summary>
+      <summary>
+        <span>📱 Mobile Banking <span class="sub-method">(BRK Syariah)</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li>Login ke BRK Syariah Mobile.</li>
@@ -325,7 +399,9 @@
     </details>
 
     <details>
-      <summary>🛒 Fintech & E-Commerce <span class="sub-method">(GoPay, Tokopedia, dll)</span></summary>
+      <summary>
+        <span>🛒 Fintech & E-Commerce <span class="sub-method">(GoPay, Tokopedia, dll)</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li>Gunakan aplikasi Gojek (GoTagihan), Tokopedia, atau Bukalapak.</li>
@@ -338,7 +414,9 @@
     </details>
 
      <details> 
-      <summary>🏦 <strong>VIA TRANSFER (Rekening BRK Syariah)</strong> <span class="sub-method"> *PDL</span></summary>
+      <summary>
+        <span>🏦 <strong>VIA TRANSFER (Rekening BRK Syariah)</strong> <span class="sub-method"> *PDL</span></span>
+      </summary>
       <div class="payment-steps">
         <ol>
           <li>Lakukan transfer melalui Teller, ATM, atau Mobile Banking Bank manapun.</li>
@@ -355,7 +433,7 @@
         <div class="alert-box-transfer">
             <strong>⚠️ WAJIB KONFIRMASI (PENTING!)</strong>
             <p style="margin:0;">Setelah transfer wajib melakukan konfirmasi ke Bendahara Penerimaan Badan Pendapatan Daerah Kabupaten Kampar melalui:</p>
-            <div style="font-size: 1.2em; margin-top: 10px; font-weight:bold; color: #b71c1c;">
+            <div class="contact-info">
                 📞 HP/WA: 0821-8469-9898 <br>
                 (a.n. Tata Sofyan)
             </div>
